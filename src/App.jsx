@@ -1,9 +1,8 @@
-import React from 'react'
+import React from "react";
+import SigninPage from "./pages/auth/SigninPage";
 
 const App = () => {
-  return (
-    <div>App</div>
-  )
-}
+  return <SigninPage />;
+};
 
-export default App
+export default App;
