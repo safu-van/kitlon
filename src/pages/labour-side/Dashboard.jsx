@@ -22,10 +22,11 @@ const Dashboard = () => {
           <div className="mt-5 flex flex-col gap-4 px-2 md:mt-6">
             <select
               name="sku"
+              defaultValue=""
               id="sku"
               className="h-11 w-full rounded-md border-2 border-customRingGrey bg-customLightGrey pl-1 text-gray-500 focus:border-none focus:outline-none focus:ring-1 focus:ring-gray-400"
             >
-              <option value="" disabled selected>
+              <option value="" disabled>
                 Select SKU
               </option>
               <option value="fsfd">111</option>
