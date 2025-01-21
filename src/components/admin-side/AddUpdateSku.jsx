@@ -1,14 +1,24 @@
 import React, { useState } from "react";
 import removeIcon from "../../assets/icons/remove.png";
 
-const AddSkuButton = () => {
-  const [addSku, setAddSku] = useState(false);
-  const [skuCode, setSkuCode] = useState("");
-  const [labourCharge, setLabourCharge] = useState("");
+const AddUpdateSku = ({ skuData = null }) => {
+  const [modalOpen, setModalOpen] = useState(false);
+  const [skuCode, setSkuCode] = useState(skuData?.skuCode || "");
+  const [labourCharge, setLabourCharge] = useState(skuData?.labourCharge || "");
   const [errors, setErrors] = useState({});
-  const [inventoryFields, setInventoryFields] = useState([
-    { id: 1, option: "", quantity: "" },
-  ]);
+  const [inventoryFields, setInventoryFields] = useState(
+    skuData?.inventoryFields || [{ id: 1, option: "", quantity: "" }]
+  );
+
+  const handleModalClose = () => {
+    setSkuCode(skuData?.skuCode || "");
+    setLabourCharge(skuData?.labourCharge || "");
+    setInventoryFields(
+      skuData?.inventoryFields || [{ id: 1, option: "", quantity: "" }]
+    );
+    setErrors({});
+    setModalOpen(false);
+  };
 
   const handleAddField = () => {
     const newField = {
@@ -73,21 +83,25 @@ const AddSkuButton = () => {
 
     if (Object.keys(formErrors).length === 0) {
       console.log("Form submitted successfully!");
-      setAddSku(false);
+      setModalOpen(false);
     }
   };
 
   return (
     <>
       <button
-        onClick={() => setAddSku(true)}
-        className="bg-customGreen hover:bg-green-600 w-24 h-9 font-medium text-white rounded-md"
+        onClick={() => setModalOpen(true)}
+        className={
+          skuData
+            ? "w-20 h-8 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey"
+            : "bg-customGreen hover:bg-green-600 w-24 h-9 font-medium text-white rounded-md"
+        }
       >
-        ADD SKU
+        {skuData ? "UPDATE" : "ADD SKU"}
       </button>
-      {addSku && (
+      {modalOpen && (
         <div
-          onClick={() => setAddSku(false)}
+          onClick={handleModalClose}
           className="fixed inset-0 bg-black bg-opacity-85 flex items-center justify-center z-50 px-4 sm:px-0"
         >
           <form
@@ -95,7 +109,9 @@ const AddSkuButton = () => {
             onClick={(e) => e.stopPropagation()}
             className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg sm:max-w-xl"
           >
-            <h2 className="text-2xl font-bold mb-4 text-center">Add SKU</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              {skuData ? "UPDATE SKU" : "ADD SKU"}
+            </h2>
             <hr className="mb-4 border-t-2 border-gray-300" />
 
             <div className="mb-4">
@@ -110,6 +126,7 @@ const AddSkuButton = () => {
                 id="skuCode"
                 name="skuCode"
                 value={skuCode}
+                readOnly={skuData}
                 onChange={(e) => setSkuCode(e.target.value)}
                 className="h-10 mt-1 w-full rounded-md border-2 border-customRingGrey bg-customLightGrey pl-2 text-gray-500 focus:border-none focus:outline-none focus:ring-1 focus:ring-gray-400"
                 placeholder="Enter SKU Code"
@@ -208,13 +225,21 @@ const AddSkuButton = () => {
                 + Add More
               </button>
             </div>
-
-            <button
-              type="submit"
-              className="h-11 w-full rounded-md bg-customGreen text-white transition-all duration-500 hover:bg-green-600 hover:shadow-lg active:scale-95 sm:text-lg"
-            >
-              Submit
-            </button>
+            <div className="flex space-x-2">
+              <button
+                type="button"
+                onClick={handleModalClose}
+                className="h-11 w-1/2 rounded-md border border-customGreen text-customGreen transition-all duration-500 hover:shadow-lg active:scale-95 sm:text-lg"
+              >
+                Close
+              </button>
+              <button
+                type="submit"
+                className="h-11 w-1/2 rounded-md bg-customGreen text-white transition-all duration-500 hover:bg-green-600 hover:shadow-lg active:scale-95 sm:text-lg"
+              >
+                Submit
+              </button>
+            </div>
           </form>
         </div>
       )}
@@ -222,4 +247,4 @@ const AddSkuButton = () => {
   );
 };
 
-export default AddSkuButton;
+export default AddUpdateSku;

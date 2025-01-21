@@ -1,12 +1,24 @@
 import React from "react";
-import AddSkuButton from "./AddSkuButton";
+import AddUpdateSku from "./AddUpdateSku";
 
 const SkuDetailsTable = () => {
+  const data = [
+    {
+      id: 1,
+      skuCode: "abcDEF",
+      labourCharge: 234,
+    },
+    {
+      id: 2,
+      skuCode: "123456",
+      labourCharge: 123,
+    },
+  ];
   return (
     <div className="h-full w-full">
       <div className="h-[15%] w-full flex items-center justify-between">
         <span className="text-lg font-medium">SKUs Details</span>
-        <AddSkuButton />
+        <AddUpdateSku />
       </div>
       <div className="h-[85%] relative">
         <div className="overflow-x-auto overflow-y-auto custom-scrollbar h-full">
@@ -21,17 +33,19 @@ const SkuDetailsTable = () => {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td className="px-4 py-2 text-center border">1</td>
-                <td className="px-4 py-2 text-center border">145236</td>
-                <td className="px-4 py-2 text-center border">10</td>
-                <td className="px-4 py-2 text-center border">300</td>
-                <td className="px-4 py-2 text-center border">
-                  <button className="w-20 h-8 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey">
-                    Update
-                  </button>
-                </td>
-              </tr>
+              {data.map((a) => (
+                <tr key={a.id}>
+                  <td className="px-4 py-2 text-center border">{a.id}</td>
+                  <td className="px-4 py-2 text-center border">{a.skuCode}</td>
+                  <td className="px-4 py-2 text-center border">0</td>
+                  <td className="px-4 py-2 text-center border">
+                    {a.labourCharge}
+                  </td>
+                  <td className="px-4 py-2 flex justify-center border">
+                    <AddUpdateSku skuData={a} />
+                  </td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
