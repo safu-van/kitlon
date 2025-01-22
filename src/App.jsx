@@ -7,6 +7,8 @@ import Dashboard from "./pages/labour-side/Dashboard";
 import AdminLayout from "./layout/AdminLayout";
 import SkuDetailsTable from "./components/admin-side/SkuDetailsTable";
 import ApproveSku from "./components/admin-side/ApproveSku";
+import LabourManagement from "./components/admin-side/LabourManagement";
+import InventoryManagement from "./components/admin-side/InventoryManagement";
 
 const App = () => {
   return (
@@ -42,8 +44,8 @@ const App = () => {
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<SkuDetailsTable />} />
           <Route path="approve-sku" element={<ApproveSku />} />
-          <Route path="user-management" element={<SkuDetailsTable />} />
-          <Route path="inventory-management" element={<SkuDetailsTable />} />
+          <Route path="labour-management" element={<LabourManagement />} />
+          <Route path="inventory-management" element={<InventoryManagement />} />
           <Route path="payout-management" element={<SkuDetailsTable />} />
         </Route>
 

@@ -3,10 +3,10 @@ import React from "react";
 const ApproveSku = () => {
   return (
     <div className="h-full w-full">
-      <div className="h-[15%] w-full flex items-center justify-between">
+      <div className="h-[15%] w-full flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 justify-between mb-5 sm:mb-0">
         <span className="text-lg font-medium">Approve SKUs</span>
         <div className="flex justify-center gap-2">
-          <button className="px-3 h-9 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey">
+          <button className="px-1 sm:px-3 h-9 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey">
             Download Excel
           </button>
           <button className="bg-customGreen hover:bg-green-600 px-3 h-9 font-medium text-white rounded-md">

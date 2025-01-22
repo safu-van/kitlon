@@ -44,7 +44,7 @@ const AddUpdateSku = ({ skuData = null }) => {
 
     // SKU Code validation
     if (!skuCode.trim()) {
-      formErrors.skuCode = "SKU Code is required and cannot be empty.";
+      formErrors.skuCode = "SKU Code is required.";
     }
 
     // Labour Charge validation
@@ -97,8 +97,9 @@ const AddUpdateSku = ({ skuData = null }) => {
             : "bg-customGreen hover:bg-green-600 px-3 h-9 font-medium text-white rounded-md"
         }
       >
-        {skuData ? "UPDATE" : "ADD SKU"}
+        {skuData ? "Update" : "Add SKU"}
       </button>
+
       {modalOpen && (
         <div
           onClick={handleModalClose}

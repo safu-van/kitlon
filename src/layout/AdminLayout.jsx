@@ -55,7 +55,7 @@ const AdminLayout = () => {
               </li>
               <li>
                 <NavLink
-                  to="user-management"
+                  to="labour-management"
                   className={({ isActive }) =>
                     `w-full h-16 px-2 lg:pl-6 border-t-2 flex items-center space-x-2 font-medium ${
                       isActive && "bg-customLightGrey"
@@ -63,7 +63,7 @@ const AdminLayout = () => {
                   }
                 >
                   <img src={userIconGrey} alt="..." className="h-9 w-9" />
-                  <span>User Management</span>
+                  <span>Labour Management</span>
                 </NavLink>
               </li>
               <li>
@@ -153,7 +153,7 @@ const AdminLayout = () => {
         </NavLink>
 
         <NavLink
-          to="user-management"
+          to="labour-management"
           className={({ isActive }) =>
             `flex flex-col items-center ${
               isActive && "bg-customGrey rounded-full p-2"
@@ -163,7 +163,7 @@ const AdminLayout = () => {
           {({ isActive }) => (
             <img
               src={isActive ? userIconWhite : userIconGrey}
-              alt="User Management"
+              alt="Labour Management"
               className="h-8 w-8"
             />
           )}
