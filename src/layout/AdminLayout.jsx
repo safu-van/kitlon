@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink, Outlet } from "react-router";
+import { clearStorage } from "../utils/localStorage";
 import logoutIcon from "../assets/icons/logout.png";
 import dashboardIconGrey from "../assets/icons/dashboard-grey.png";
 import dashboardIconWhite from "../assets/icons/dashboard-white.png";
@@ -9,7 +10,8 @@ import userIconGrey from "../assets/icons/user-grey.png";
 import userIconWhite from "../assets/icons/user-white.png";
 import walletIconGrey from "../assets/icons/wallet-grey.png";
 import walletIconWhite from "../assets/icons/wallet-white.png";
-import { clearStorage } from "../utils/localStorage";
+import approveIconGrey from "../assets/icons/approval-grey.png";
+import approveIconWhite from "../assets/icons/approval-white.png";
 
 const AdminLayout = () => {
   return (
@@ -36,6 +38,19 @@ const AdminLayout = () => {
                 >
                   <img src={dashboardIconGrey} alt="..." className="h-7 w-7" />
                   <span>Dashboard</span>
+                </NavLink>
+              </li>
+              <li>
+                <NavLink
+                  to="approve-sku"
+                  className={({ isActive }) =>
+                    `w-full h-16 px-2 lg:pl-6 border-t-2 flex items-center space-x-4 font-medium ${
+                      isActive && "bg-customLightGrey"
+                    }`
+                  }
+                >
+                  <img src={approveIconGrey} alt="..." className="h-7 w-7" />
+                  <span>Approve SKU</span>
                 </NavLink>
               </li>
               <li>
@@ -115,6 +130,23 @@ const AdminLayout = () => {
             <img
               src={isActive ? dashboardIconWhite : dashboardIconGrey}
               alt="Dashboard"
+              className="h-6 w-6"
+            />
+          )}
+        </NavLink>
+
+        <NavLink
+          to="approve-sku"
+          className={({ isActive }) =>
+            `flex flex-col items-center ${
+              isActive && "bg-customGrey rounded-full p-3"
+            }`
+          }
+        >
+          {({ isActive }) => (
+            <img
+              src={isActive ? approveIconWhite : approveIconGrey}
+              alt="Approve Sku"
               className="h-6 w-6"
             />
           )}

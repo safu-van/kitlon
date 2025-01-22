@@ -93,8 +93,8 @@ const AddUpdateSku = ({ skuData = null }) => {
         onClick={() => setModalOpen(true)}
         className={
           skuData
-            ? "w-20 h-8 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey"
-            : "bg-customGreen hover:bg-green-600 w-24 h-9 font-medium text-white rounded-md"
+            ? "px-3 h-8 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey"
+            : "bg-customGreen hover:bg-green-600 px-3 h-9 font-medium text-white rounded-md"
         }
       >
         {skuData ? "UPDATE" : "ADD SKU"}

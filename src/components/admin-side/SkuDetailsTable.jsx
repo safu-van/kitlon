@@ -25,20 +25,20 @@ const SkuDetailsTable = () => {
           <table className="w-full rounded-sm shadow-lg border-collapse">
             <thead className="sticky top-0 bg-white z-10">
               <tr>
-                <th className="px-4 py-2 border">No.</th>
-                <th className="px-4 py-2 border">SKU Code</th>
-                <th className="px-4 py-2 border">Stock</th>
-                <th className="px-4 py-2 border">Labour Charge</th>
-                <th className="px-4 py-2 border"></th>
+                <th className="px-2 py-2 border">No.</th>
+                <th className="px-2 py-2 border">SKU Code</th>
+                <th className="px-2 py-2 border">Stock</th>
+                <th className="px-2 py-2 border">Labour Charge</th>
+                <th className="px-2 py-2 border"></th>
               </tr>
             </thead>
             <tbody>
               {data.map((a) => (
                 <tr key={a.id}>
-                  <td className="px-4 py-2 text-center border">{a.id}</td>
-                  <td className="px-4 py-2 text-center border">{a.skuCode}</td>
-                  <td className="px-4 py-2 text-center border">0</td>
-                  <td className="px-4 py-2 text-center border">
+                  <td className="px-2 py-2 text-center border">{a.id}</td>
+                  <td className="px-2 py-2 text-center border">{a.skuCode}</td>
+                  <td className="px-2 py-2 text-center border">0</td>
+                  <td className="px-2 py-2 text-center border">
                     {a.labourCharge}
                   </td>
                   <td className="px-4 py-2 flex justify-center border">
