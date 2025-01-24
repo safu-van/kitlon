@@ -9,6 +9,7 @@ import SkuDetailsTable from "./components/admin-side/SkuDetailsTable";
 import ApproveSku from "./components/admin-side/ApproveSku";
 import LabourManagement from "./components/admin-side/LabourManagement";
 import InventoryManagement from "./components/admin-side/InventoryManagement";
+import PayoutManagement from "./components/admin-side/PayoutManagement";
 
 const App = () => {
   return (
@@ -46,7 +47,7 @@ const App = () => {
           <Route path="approve-sku" element={<ApproveSku />} />
           <Route path="labour-management" element={<LabourManagement />} />
           <Route path="inventory-management" element={<InventoryManagement />} />
-          <Route path="payout-management" element={<SkuDetailsTable />} />
+          <Route path="payout-management" element={<PayoutManagement />} />
         </Route>
 
         <Route path="*" element={<Navigate to="/sign-in" />} />

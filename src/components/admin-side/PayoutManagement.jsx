@@ -1,25 +1,24 @@
 import React from "react";
-import AddUpdateInventory from "./AddUpdateInventory";
+import PayButton from "./PayButton";
 
-const InventoryManagement = () => {
+const PayoutManagement = () => {
   const data = [
     {
       id: 1,
-      inventoryName: "screw",
-      inventoryStock: 3,
+      labourName: "safuvan",
+      amount: 500,
     },
     {
       id: 2,
-      inventoryName: "bolt",
-      inventoryStock: 4,
+      labourName: "faisal",
+      amount: 0,
     },
   ];
 
   return (
     <div className="h-full w-full">
       <div className="h-[15%] w-full flex items-center justify-between">
-        <span className="text-lg font-medium">Inventory Details</span>
-        <AddUpdateInventory />
+        <span className="text-lg font-medium">Payout Details</span>
       </div>
       <div className="h-[85%] relative">
         <div className="overflow-x-auto overflow-y-auto custom-scrollbar h-full">
@@ -27,8 +26,8 @@ const InventoryManagement = () => {
             <thead className="sticky top-0 bg-white z-10">
               <tr>
                 <th className="px-2 py-2 border">No.</th>
-                <th className="px-2 py-2 border">Inventory Name</th>
-                <th className="px-2 py-2 border">Stock</th>
+                <th className="px-2 py-2 border">Labour Name</th>
+                <th className="px-2 py-2 border">Amount</th>
                 <th className="px-2 py-2 border"></th>
               </tr>
             </thead>
@@ -36,10 +35,16 @@ const InventoryManagement = () => {
               {data.map((a) => (
                 <tr key={a.id}>
                   <td className="px-2 py-2 text-center border">1</td>
-                  <td className="px-2 py-2 text-center border">{a.inventoryName}</td>
-                  <td className="px-2 py-2 text-center border">15</td>
+                  <td className="px-2 py-2 text-center border">
+                    {a.labourName}
+                  </td>
+                  <td className="px-2 py-2 text-center border">{a.amount}</td>
                   <td className="px-2 py-2 flex justify-center border">
-                    <AddUpdateInventory inventoryData={a} />
+                    {a.amount > 0 ? (
+                      <PayButton payoutData={a} />
+                    ) : (
+                      <span>&nbsp;</span>
+                    )}
                   </td>
                 </tr>
               ))}
@@ -51,4 +56,4 @@ const InventoryManagement = () => {
   );
 };
 
-export default InventoryManagement;
+export default PayoutManagement;
