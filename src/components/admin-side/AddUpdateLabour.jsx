@@ -45,7 +45,7 @@ const AddUpdateLabour = ({ labourData = null }) => {
 
     if (Object.keys(formErrors).length === 0) {
       console.log("Form submitted successfully!");
-      setModalOpen(false);
+      handleModalClose();
     }
   };
 

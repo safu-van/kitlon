@@ -19,6 +19,9 @@ const PayoutManagement = () => {
     <div className="h-full w-full">
       <div className="h-[15%] w-full flex items-center justify-between">
         <span className="text-lg font-medium">Payout Details</span>
+        <button className="px-1 sm:px-3 h-9 hover:text-white hover:bg-customGrey rounded-md bg-white text-customGrey border-2 border-customGrey">
+          Download Excel
+        </button>
       </div>
       <div className="h-[85%] relative">
         <div className="overflow-x-auto overflow-y-auto custom-scrollbar h-full">
@@ -39,9 +42,11 @@ const PayoutManagement = () => {
                     {a.labourName}
                   </td>
                   <td className="px-2 py-2 text-center border">{a.amount}</td>
-                  <td className="px-2 py-2 flex justify-center border">
+                  <td className="px-2 py-2 border">
                     {a.amount > 0 ? (
-                      <PayButton payoutData={a} />
+                      <div className="flex justify-center">
+                        <PayButton payoutData={a} />
+                      </div>
                     ) : (
                       <span>&nbsp;</span>
                     )}

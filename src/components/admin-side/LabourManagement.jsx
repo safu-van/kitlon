@@ -47,8 +47,10 @@ const LabourManagement = () => {
                   </td>
                   <td className="px-2 py-2 text-center border">faisal_123</td>
                   <td className="px-2 py-2 text-center border">9188552541</td>
-                  <td className="px-2 py-2 flex justify-center border">
-                    <AddUpdateLabour labourData={a} />
+                  <td className="px-2 py-2 border">
+                    <div className="flex justify-center">
+                      <AddUpdateLabour labourData={a} />
+                    </div>
                   </td>
                   <td className="px-2 py-2 text-center border">
                     {/* <button className="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600 transition">

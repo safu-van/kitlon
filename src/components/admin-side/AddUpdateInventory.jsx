@@ -24,8 +24,8 @@ const AddUpdateInventory = ({ inventoryData = null }) => {
       formErrors.inventoryName = "Inventory name is required";
     }
 
-    if (inventoryStock <= 0) {
-      formErrors.inventoryStock = "Inventory stock must be greater than 0";
+    if (inventoryStock < 0) {
+      formErrors.inventoryStock = "Inventory stock must be greater than or 0";
     }
 
     return formErrors;
@@ -40,7 +40,7 @@ const AddUpdateInventory = ({ inventoryData = null }) => {
 
     if (Object.keys(formErrors).length === 0) {
       console.log("Form submitted successfully!");
-      setModalOpen(false);
+      handleModalClose();
     }
   };
 

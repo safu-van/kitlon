@@ -41,8 +41,10 @@ const SkuDetailsTable = () => {
                   <td className="px-2 py-2 text-center border">
                     {a.labourCharge}
                   </td>
-                  <td className="px-4 py-2 flex justify-center border">
-                    <AddUpdateSku skuData={a} />
+                  <td className="px-4 py-2 border">
+                    <div className="flex justify-center">
+                      <AddUpdateSku skuData={a} />
+                    </div>
                   </td>
                 </tr>
               ))}

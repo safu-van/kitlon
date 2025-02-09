@@ -1,5 +1,6 @@
 import React from "react";
 import AddUpdateInventory from "./AddUpdateInventory";
+import UpdateInventoryStock from "./UpdateInventoryStock";
 
 const InventoryManagement = () => {
   const data = [
@@ -30,16 +31,26 @@ const InventoryManagement = () => {
                 <th className="px-2 py-2 border">Inventory Name</th>
                 <th className="px-2 py-2 border">Stock</th>
                 <th className="px-2 py-2 border"></th>
+                <th className="px-2 py-2 border"></th>
               </tr>
             </thead>
             <tbody>
               {data.map((a) => (
                 <tr key={a.id}>
                   <td className="px-2 py-2 text-center border">1</td>
-                  <td className="px-2 py-2 text-center border">{a.inventoryName}</td>
+                  <td className="px-2 py-2 text-center border">
+                    {a.inventoryName}
+                  </td>
                   <td className="px-2 py-2 text-center border">15</td>
-                  <td className="px-2 py-2 flex justify-center border">
-                    <AddUpdateInventory inventoryData={a} />
+                  <td className="px-2 py-2 border">
+                    <div className="flex justify-center">
+                      <UpdateInventoryStock inventoryData={a} />
+                    </div>
+                  </td>
+                  <td className="px-2 py-2 border">
+                    <div className="flex justify-center">
+                      <AddUpdateInventory inventoryData={a} />
+                    </div>
                   </td>
                 </tr>
               ))}
