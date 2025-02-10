@@ -3,7 +3,7 @@ import { getItem } from "../../utils/localStorage";
 import { Navigate } from "react-router";
 
 const ProtectSignin = ({ children }) => {
-  const user = getItem("user");
+  const user = getItem("userData");
 
   if (user?.role === "admin") {
     return <Navigate to="/admin/dashboard" />;

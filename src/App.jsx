@@ -19,34 +19,37 @@ const App = () => {
         <Route
           path="/sign-in"
           element={
-            // <ProtectSignin>
-            <SigninPage />
-            // </ProtectSignin>
+            <ProtectSignin>
+              <SigninPage />
+            </ProtectSignin>
           }
         />
 
         <Route
           path="/labour"
           element={
-            // <ProtectDashboard role="labour">
-            <Dashboard />
-            // </ProtectDashboard>
+            <ProtectDashboard role="labour">
+              <Dashboard />
+            </ProtectDashboard>
           }
         />
 
         <Route
           path="/admin"
           element={
-            // <ProtectDashboard role="admin">
-            <AdminLayout />
-            // </ProtectDashboard>
+            <ProtectDashboard role="admin">
+              <AdminLayout />
+            </ProtectDashboard>
           }
         >
           <Route index element={<Navigate to="dashboard" />} />
           <Route path="dashboard" element={<SkuDetailsTable />} />
           <Route path="approve-sku" element={<ApproveSku />} />
           <Route path="labour-management" element={<LabourManagement />} />
-          <Route path="inventory-management" element={<InventoryManagement />} />
+          <Route
+            path="inventory-management"
+            element={<InventoryManagement />}
+          />
           <Route path="payout-management" element={<PayoutManagement />} />
         </Route>
 

@@ -22,3 +22,20 @@ export const clearStorage = () => {
     console.error("localStorage clear error:", error);
   }
 };
+
+export const setAccessToken = (newAccessToken) => {
+  let userData = getItem("userData");
+
+  if (userData) {
+    userData.access_token = newAccessToken;
+    setItem("userData", userData);
+  }
+};
+
+export const getUserDataDetails = (key) => {
+  let userData = getItem("userData");
+
+  if (userData) {
+    return userData[key];
+  }
+};
