@@ -2,17 +2,21 @@ import React, { useState } from "react";
 import { login } from "../../services/authService";
 import { setItem } from "../../utils/localStorage";
 import { useNavigate } from "react-router";
+import toast from "react-hot-toast";
 
 const SigninPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const data = await login({ username, password });
       setItem("userData", data);
+      toast.success("Logged In Successfully");
       if (data.role === "admin") {
         navigate("/admin");
       } else {
@@ -20,6 +24,8 @@ const SigninPage = () => {
       }
     } catch (error) {
       setError("Invalid username or password");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +60,10 @@ const SigninPage = () => {
             {error && <p className="text-red-500 text-sm">{error}</p>}
             <button
               onClick={handleLogin}
-              className="mt-3 mb-1 h-11 w-full rounded-md bg-customGreen text-white transition-all duration-500 hover:bg-green-600 hover:shadow-lg active:scale-95 sm:text-lg"
+              disabled={loading}
+              className={`mt-3 mb-1 h-11 w-full rounded-md bg-customGreen text-white transition-all duration-500 hover:bg-green-600 hover:shadow-lg active:scale-95 sm:text-lg ${
+                loading ? "cursor-not-allowed" : "cursor-pointer"
+              }`}
             >
               Sign In
             </button>
