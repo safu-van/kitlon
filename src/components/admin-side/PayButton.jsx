@@ -1,6 +1,8 @@
 import React, { useState } from "react";
+import { deductAmount } from "../../services/payoutService";
+import toast from "react-hot-toast";
 
-const PayButton = ({ payoutData }) => {
+const PayButton = ({ walletData, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [payAmount, setPayAmount] = useState("");
   const [error, setError] = useState("");
@@ -11,7 +13,7 @@ const PayButton = ({ payoutData }) => {
     setModalOpen(false);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (payAmount <= 0) {
@@ -19,9 +21,17 @@ const PayButton = ({ payoutData }) => {
       return;
     }
 
-    if (payAmount > payoutData.amount) {
+    if (payAmount > Number(walletData.amount)) {
       setError("Entered amount exceeds the pending payment");
       return;
+    }
+
+    try {
+      await deductAmount(walletData.id, { amount: payAmount });
+      onSuccess?.();
+      toast.success("Amount Paid Successfully");
+    } catch (error) {
+      toast.error("Try again");
     }
 
     handleModalClose();
@@ -31,7 +41,7 @@ const PayButton = ({ payoutData }) => {
     <>
       <button
         onClick={() => setModalOpen(true)}
-        className="bg-customGreen hover:bg-green-600 px-5 h-9 font-medium text-white rounded-md"
+        className="bg-green-500 hover:bg-green-600 px-5 h-9 font-medium text-white rounded-md"
       >
         Pay
       </button>
