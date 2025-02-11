@@ -10,6 +10,23 @@ export const submitSku = async (payload) => {
   return data;
 };
 
+export const fetchSubmittedSku = async () => {
+  const { data } = await API.get("/sku/sku-submission/");
+  return data;
+};
+
+export const updateSubmittedSkuStatus = async (id, status) => {
+  const { data } = await API.patch(`/sku/update-status/${id}/${status}/`);
+  return data;
+};
+
+export const downloadSkuSubmissionExcel = async () => {
+  const { data } = await API.get("/sku/sku-submission-excel/", {
+    responseType: "blob",
+  });
+  return data;
+};
+
 export const createSku = async (payload) => {
   const { data } = await API.post("/sku/", payload);
   return data;
