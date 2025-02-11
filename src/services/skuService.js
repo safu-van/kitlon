@@ -5,7 +5,17 @@ export const fetchSkuData = async () => {
   return data;
 };
 
-export const submitSku = async (body) => {
-  const { data } = await API.post("/sku/sku-submission/", body);
+export const submitSku = async (payload) => {
+  const { data } = await API.post("/sku/sku-submission/", payload);
+  return data;
+};
+
+export const createSku = async (payload) => {
+  const { data } = await API.post("/sku/", payload);
+  return data;
+};
+
+export const updateSku = async (id, payload) => {
+  const { data } = await API.patch(`/sku/${id}/`, payload);
   return data;
 };

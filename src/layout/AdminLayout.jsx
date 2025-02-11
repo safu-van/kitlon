@@ -1,5 +1,5 @@
 import React from "react";
-import { NavLink, Outlet } from "react-router";
+import { NavLink, Outlet, useNavigate } from "react-router";
 import { clearStorage } from "../utils/localStorage";
 import logoutIcon from "../assets/icons/logout.png";
 import dashboardIconGrey from "../assets/icons/dashboard-grey.png";
@@ -14,6 +14,13 @@ import approveIconGrey from "../assets/icons/approval-grey.png";
 import approveIconWhite from "../assets/icons/approval-white.png";
 
 const AdminLayout = () => {
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    clearStorage();
+    navigate("/sign-in");
+  };
+
   return (
     <div className="bg-customGrey h-dvh p-4">
       <div className="w-full h-full flex flex-col md:flex-row md:space-x-4">
@@ -103,7 +110,7 @@ const AdminLayout = () => {
             </span>
             <img
               src={logoutIcon}
-              onClick={() => clearStorage()}
+              onClick={handleLogout}
               alt="logout"
               className="h-6 cursor-pointer"
               title="Logout"

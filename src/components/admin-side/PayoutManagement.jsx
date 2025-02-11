@@ -41,7 +41,7 @@ const PayoutManagement = () => {
                   <td className="px-2 py-2 text-center border">
                     {a.labourName}
                   </td>
-                  <td className="px-2 py-2 text-center border">{a.amount}</td>
+                  <td className="px-2 py-2 text-center border">₹{a.amount}</td>
                   <td className="px-2 py-2 border">
                     {a.amount > 0 ? (
                       <div className="flex justify-center">

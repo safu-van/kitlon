@@ -23,7 +23,6 @@ const Dashboard = () => {
     const getSku = async () => {
       const data = await fetchSkuData();
       setSkuList(data || []);
-      console.log(data);
     };
     getSku();
   }, []);
@@ -36,7 +35,7 @@ const Dashboard = () => {
     setLoading(true);
 
     try {
-      const data = await submitSku({
+      await submitSku({
         sku_code: selectedSku,
         quantity: Number(quantity),
       });

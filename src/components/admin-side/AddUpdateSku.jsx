@@ -1,20 +1,46 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import removeIcon from "../../assets/icons/remove.png";
+import { fetchInventoryData } from "../../services/inventoryService";
+import { createSku, updateSku } from "../../services/skuService";
+import toast from "react-hot-toast";
 
-const AddUpdateSku = ({ skuData = null }) => {
+const AddUpdateSku = ({ skuData = null, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [skuCode, setSkuCode] = useState(skuData?.skuCode || "");
-  const [labourCharge, setLabourCharge] = useState(skuData?.labourCharge || "");
+  const [skuCode, setSkuCode] = useState(skuData?.code || "");
+  const [labourCharge, setLabourCharge] = useState(
+    skuData?.labour_charge || ""
+  );
   const [errors, setErrors] = useState({});
+  const [inventoryList, setInventoryList] = useState([]);
   const [inventoryFields, setInventoryFields] = useState(
-    skuData?.inventoryFields || [{ id: 1, option: "", quantity: "" }]
+    skuData?.inventory_needed
+      ? skuData.inventory_needed.map((item, index) => ({
+          id: index + 1,
+          inventory: item.inventory,
+          quantity: item.quantity,
+        }))
+      : [{ id: 1, inventory: "", quantity: "" }]
   );
 
+  useEffect(() => {
+    const getInventoryData = async () => {
+      const data = await fetchInventoryData();
+      setInventoryList(data || []);
+    };
+    getInventoryData();
+  }, []);
+
   const handleModalClose = () => {
-    setSkuCode(skuData?.skuCode || "");
-    setLabourCharge(skuData?.labourCharge || "");
+    setSkuCode(skuData?.code || "");
+    setLabourCharge(skuData?.labour_charge || "");
     setInventoryFields(
-      skuData?.inventoryFields || [{ id: 1, option: "", quantity: "" }]
+      skuData?.inventory_needed
+        ? skuData.inventory_needed.map((item, index) => ({
+            id: index + 1,
+            inventory: item.inventory,
+            quantity: item.quantity,
+          }))
+        : [{ id: 1, inventory: "", quantity: "" }]
     );
     setErrors({});
     setModalOpen(false);
@@ -23,7 +49,7 @@ const AddUpdateSku = ({ skuData = null }) => {
   const handleAddField = () => {
     const newField = {
       id: inventoryFields.length + 1,
-      option: "",
+      inventory: "",
       quantity: "",
     };
     setInventoryFields([...inventoryFields, newField]);
@@ -35,7 +61,7 @@ const AddUpdateSku = ({ skuData = null }) => {
 
   const handleFieldChange = (id, field, value) => {
     setInventoryFields((prev) =>
-      prev.map((f) => (f.id === id ? { ...f, [field]: value } : f))
+      prev.map((f) => (f.id === id ? { ...f, [field]: Number(value) } : f))
     );
   };
 
@@ -54,13 +80,20 @@ const AddUpdateSku = ({ skuData = null }) => {
 
     // Inventory validation
     let inventoryValid = false;
+    let selectedInventories = new Set();
     inventoryFields.forEach((field, index) => {
-      if (field.option && field.quantity > 0) {
+      if (field.inventory && field.quantity > 0) {
         inventoryValid = true;
       }
-      if (!field.option.trim()) {
+
+      if (!field.inventory) {
         formErrors[`inventoryOption_${index}`] = "Please select an inventory.";
+      } else if (selectedInventories.has(field.inventory)) {
+        formErrors[`inventoryOption_${index}`] = "Inventory already selected.";
+      } else {
+        selectedInventories.add(field.inventory);
       }
+
       if (field.quantity <= 0) {
         formErrors[`inventoryQuantity_${index}`] =
           "Quantity must be greater than 0.";
@@ -74,7 +107,7 @@ const AddUpdateSku = ({ skuData = null }) => {
     return formErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form before submitting
@@ -82,7 +115,32 @@ const AddUpdateSku = ({ skuData = null }) => {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      console.log("Form submitted successfully!");
+      const payload = {
+        code: skuCode,
+        labour_charge: labourCharge,
+        inventory_needed: inventoryFields,
+      };
+
+      if (skuData) {
+        // Update Sku
+        try {
+          await updateSku(skuData.id, payload);
+          onSuccess?.();
+          toast.success("SKU Updated Successfully");
+        } catch (error) {
+          toast.error("Try again");
+        }
+      } else {
+        // Create Sku
+        try {
+          await createSku(payload);
+          onSuccess?.();
+          toast.success("New SKU Added Successfully");
+        } catch (error) {
+          toast.error("SKU code already exists, Try again");
+        }
+      }
+
       handleModalClose();
     }
   };
@@ -166,21 +224,27 @@ const AddUpdateSku = ({ skuData = null }) => {
               </label>
               <div className="max-h-40 overflow-y-auto custom-scrollbar border rounded-md p-3 bg-gray-50">
                 {inventoryFields.map((field, index) => (
-                  <div key={field.id} className="flex flex-col mb-3">
+                  <div key={index} className="flex flex-col mb-3">
                     <div className="flex items-center gap-2">
                       <select
-                        value={field.option}
+                        value={field.inventory}
                         onChange={(e) =>
-                          handleFieldChange(field.id, "option", e.target.value)
+                          handleFieldChange(
+                            field.id,
+                            "inventory",
+                            e.target.value
+                          )
                         }
                         className="h-10 w-1/2 rounded-md border-2 border-customRingGrey bg-customLightGrey pl-2 text-gray-500 focus:border-none focus:outline-none focus:ring-1 focus:ring-gray-400"
                       >
                         <option value="" disabled>
                           Select Inventory
                         </option>
-                        <option value="Option 1">Option 1</option>
-                        <option value="Option 2">Option 2</option>
-                        <option value="Option 3">Option 3</option>
+                        {inventoryList.map((inv) => (
+                          <option key={inv.id} value={inv.id}>
+                            {inv.name}
+                          </option>
+                        ))}
                       </select>
                       <input
                         type="number"
