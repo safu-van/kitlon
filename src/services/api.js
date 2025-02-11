@@ -1,5 +1,9 @@
 import axios from "axios";
-import { getUserDataDetails, setAccessToken } from "../utils/localStorage";
+import {
+  clearStorage,
+  getUserDataDetails,
+  setAccessToken,
+} from "../utils/localStorage";
 
 const API = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
@@ -26,7 +30,8 @@ API.interceptors.response.use(
     if (
       error.response?.status === 401 &&
       !originalRequest._retry &&
-      originalRequest.url !== "/acc/login/"
+      originalRequest.url !== "/acc/login/" &&
+      originalRequest.url !== "/token/"
     ) {
       originalRequest._retry = true;
 
@@ -35,7 +40,7 @@ API.interceptors.response.use(
         if (!refreshToken) throw new Error("No refresh token");
 
         // request new access token
-        const { data } = await API.post("/token", { refresh: refreshToken });
+        const { data } = await API.post("/token/", { refresh: refreshToken });
         setAccessToken(data.access);
 
         // Retry the original request with the new token
@@ -43,9 +48,15 @@ API.interceptors.response.use(
         originalRequest.headers.Authorization = `Bearer ${data.access}`;
         return API(originalRequest);
       } catch (refreshError) {
+        clearStorage();
         window.location.href = "/sign-in";
       }
     }
+    if (error.response?.status === 401 && originalRequest.url === "/token/") {
+      clearStorage();
+      window.location.href = "/sign-in";
+    }
+
     return Promise.reject(error);
   }
 );

@@ -137,7 +137,8 @@ const AddUpdateSku = ({ skuData = null, onSuccess }) => {
           onSuccess?.();
           toast.success("New SKU Added Successfully");
         } catch (error) {
-          toast.error("SKU code already exists, Try again");
+          setErrors({ skuCode: "SKU code already exists" });
+          return;
         }
       }
 

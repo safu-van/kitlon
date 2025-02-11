@@ -4,9 +4,10 @@ import { fetchSkuData } from "../../services/skuService";
 
 const SkuDetailsTable = () => {
   const [skuData, setSkuData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getSkuData = async () => {
+    setLoading(true)
     const data = await fetchSkuData();
     setSkuData(data || []);
     setLoading(false);

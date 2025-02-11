@@ -24,7 +24,7 @@ const AdminLayout = () => {
   return (
     <div className="bg-customGrey h-dvh p-4">
       <div className="w-full h-full flex flex-col md:flex-row md:space-x-4">
-        <nav className="hidden md:block md:w-[25%] h-full bg-white rounded-md shadow-xl">
+        <nav className="hidden md:block md:w-[25%] h-full bg-white rounded-md shadow-xl overflow-y-auto custom-scrollbar">
           <div className="h-32 w-full p-4">
             <img
               src="/logo/kitlon-nobg-small.png"

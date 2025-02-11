@@ -1,16 +1,20 @@
 import React, { useState } from "react";
+import { createLabour, updateLabour } from "../../services/labourService";
+import toast from "react-hot-toast";
 
-const AddUpdateLabour = ({ labourData = null }) => {
+const AddUpdateLabour = ({ labourData = null, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [firstName, setFirstName] = useState(labourData?.firstName || "");
-  const [lastName, setLastName] = useState(labourData?.lastName || "");
-  const [phoneNumber, setPhoneNumber] = useState(labourData?.phoneNumber || "");
+  const [firstName, setFirstName] = useState(labourData?.first_name || "");
+  const [lastName, setLastName] = useState(labourData?.last_name || "");
+  const [phoneNumber, setPhoneNumber] = useState(
+    labourData?.phone_number || ""
+  );
   const [errors, setErrors] = useState({});
 
   const handleModalClose = () => {
-    setFirstName(labourData?.firstName || "");
-    setLastName(labourData?.lastName || "");
-    setPhoneNumber(labourData?.phoneNumber || "");
+    setFirstName(labourData?.first_name || "");
+    setLastName(labourData?.last_name || "");
+    setPhoneNumber(labourData?.phone_number || "");
     setErrors({});
     setModalOpen(false);
   };
@@ -36,7 +40,7 @@ const AddUpdateLabour = ({ labourData = null }) => {
     return formErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form before submitting
@@ -44,7 +48,34 @@ const AddUpdateLabour = ({ labourData = null }) => {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      console.log("Form submitted successfully!");
+      const payload = {
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+      };
+
+      if (labourData) {
+        // update Labour
+        try {
+          await updateLabour(labourData.id, payload);
+          onSuccess?.();
+          toast.success("Labour Updated Successfully");
+        } catch (error) {
+          setErrors({ phoneNumber: "Phone number already exists" });
+          return;
+        }
+      } else {
+        // create Labour
+        try {
+          await createLabour(payload);
+          onSuccess?.();
+          toast.success("New Labour Added Successfully");
+        } catch (error) {
+          setErrors({ phoneNumber: "Phone number already exists" });
+          return;
+        }
+      }
+
       handleModalClose();
     }
   };

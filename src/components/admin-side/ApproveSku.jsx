@@ -8,12 +8,13 @@ import toast from "react-hot-toast";
 
 const ApproveSku = () => {
   const [submittedSku, setSubmittedSku] = useState([]);
-  const [loading, setLoding] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const getSubmittedSku = async () => {
+    setLoading(true)
     const data = await fetchSubmittedSku();
     setSubmittedSku(data || []);
-    setLoding(false);
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -42,7 +43,7 @@ const ApproveSku = () => {
       document.body.appendChild(link);
       link.click();
 
-      toast.success("Downloaded");
+      toast.success("Downloading Started");
 
       // Cleanup
       document.body.removeChild(link);
