@@ -1,18 +1,21 @@
 import React, { useState } from "react";
+import {
+  createInventory,
+  updateInventory,
+} from "../../services/inventoryService";
+import toast from "react-hot-toast";
 
-const AddUpdateInventory = ({ inventoryData = null }) => {
+const AddUpdateInventory = ({ inventoryData = null, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [errors, setErrors] = useState({});
-  const [inventoryName, setInventoryName] = useState(
-    inventoryData?.inventoryName || ""
-  );
+  const [inventoryName, setInventoryName] = useState(inventoryData?.name || "");
   const [inventoryStock, setInventoryStock] = useState(
-    inventoryData?.inventoryStock || ""
+    inventoryData?.stock || ""
   );
 
   const handleModalClose = () => {
-    setInventoryName(inventoryData?.inventoryName || "");
-    setInventoryStock(inventoryData?.inventoryStock || "");
+    setInventoryName(inventoryData?.name || "");
+    setInventoryStock(inventoryData?.stock || "");
     setErrors({});
     setModalOpen(false);
   };
@@ -24,14 +27,14 @@ const AddUpdateInventory = ({ inventoryData = null }) => {
       formErrors.inventoryName = "Inventory name is required";
     }
 
-    if (inventoryStock < 0) {
+    if (!inventoryStock || inventoryStock < 0) {
       formErrors.inventoryStock = "Inventory stock must be greater than or 0";
     }
 
     return formErrors;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form before submitting
@@ -39,7 +42,31 @@ const AddUpdateInventory = ({ inventoryData = null }) => {
     setErrors(formErrors);
 
     if (Object.keys(formErrors).length === 0) {
-      console.log("Form submitted successfully!");
+      const payload = {
+        name: inventoryName,
+        stock: inventoryStock,
+      };
+
+      if (inventoryData) {
+        // update Inventory
+        try {
+          await updateInventory(inventoryData.id, payload);
+          onSuccess?.();
+          toast.success("Inventory Updated Successfully");
+        } catch (error) {
+          toast.error("Try again");
+        }
+      } else {
+        // create Inventory
+        try {
+          await createInventory(payload);
+          onSuccess?.();
+          toast.success("New Inventory Added Successfully");
+        } catch (error) {
+          toast.error("Try again");
+        }
+      }
+
       handleModalClose();
     }
   };

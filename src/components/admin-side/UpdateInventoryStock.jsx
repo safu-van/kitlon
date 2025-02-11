@@ -1,12 +1,14 @@
 import React, { useState } from "react";
+import { updateInventoryStock } from "../../services/inventoryService";
+import toast from "react-hot-toast";
 
-const UpdateInventoryStock = ({ inventoryData }) => {
+const UpdateInventoryStock = ({ inventoryData, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [error, setError] = useState("");
   const [stock, setStock] = useState("");
 
   const handleModalClose = () => {
-    setStock(0);
+    setStock("");
     setError("");
     setModalOpen(false);
   };
@@ -20,7 +22,7 @@ const UpdateInventoryStock = ({ inventoryData }) => {
     return true;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate form before submitting
@@ -28,7 +30,14 @@ const UpdateInventoryStock = ({ inventoryData }) => {
       return;
     }
 
-    console.log("Form submitted successfully!");
+    try {
+      await updateInventoryStock(inventoryData.id, { stock });
+      onSuccess?.();
+      toast.success("Inventory Stock Added Successfully");
+    } catch (error) {
+      toast.error("Try again");
+    }
+
     handleModalClose();
   };
 
@@ -36,7 +45,7 @@ const UpdateInventoryStock = ({ inventoryData }) => {
     <>
       <button
         onClick={() => setModalOpen(true)}
-        className="bg-customGreen hover:bg-green-600 px-3 h-8 font-medium text-white rounded-md"
+        className="bg-green-500 hover:bg-green-600 px-3 h-8 text-white rounded-md"
       >
         Add Stock
       </button>
