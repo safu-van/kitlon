@@ -42,6 +42,7 @@ const Dashboard = () => {
       toast.success("Submitted Successfully", { duration: 3000 });
       setSelectedSku("");
       setQuantity("");
+      setError("")
     } catch (error) {
       setError(error.response.data.inventory);
       toast.error("Try again", { duration: 3000 });
