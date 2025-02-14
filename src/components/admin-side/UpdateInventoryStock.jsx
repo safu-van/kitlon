@@ -45,7 +45,7 @@ const UpdateInventoryStock = ({ inventoryData, onSuccess }) => {
     <>
       <button
         onClick={() => setModalOpen(true)}
-        className="bg-green-500 hover:bg-green-600 px-3 h-8 text-white rounded-md"
+        className="bg-green-500 hover:bg-green-600 w-24 h-8 text-white rounded-md"
       >
         Add Stock
       </button>

@@ -21,11 +21,6 @@ const PayButton = ({ walletData, onSuccess }) => {
       return;
     }
 
-    if (payAmount > Number(walletData.amount)) {
-      setError("Entered amount exceeds the pending payment");
-      return;
-    }
-
     try {
       await deductAmount(walletData.id, { amount: payAmount });
       onSuccess?.();
