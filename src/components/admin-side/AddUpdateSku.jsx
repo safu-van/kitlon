@@ -7,6 +7,7 @@ import toast from "react-hot-toast";
 const AddUpdateSku = ({ skuData = null, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [skuCode, setSkuCode] = useState(skuData?.code || "");
+  const [stock, setStock] = useState(skuData?.stock || "");
   const [labourCharge, setLabourCharge] = useState(
     skuData?.labour_charge || ""
   );
@@ -32,6 +33,7 @@ const AddUpdateSku = ({ skuData = null, onSuccess }) => {
 
   const handleModalClose = () => {
     setSkuCode(skuData?.code || "");
+    setStock(skuData?.stock || "");
     setLabourCharge(skuData?.labour_charge || "");
     setInventoryFields(
       skuData?.inventory_needed
@@ -71,6 +73,11 @@ const AddUpdateSku = ({ skuData = null, onSuccess }) => {
     // SKU Code validation
     if (!skuCode.trim()) {
       formErrors.skuCode = "SKU Code is required.";
+    }
+
+    // Stock validation
+    if (!stock || stock < 0) {
+      formErrors.stock = "Stock must be greater than or 0.";
     }
 
     // Labour Charge validation
@@ -117,6 +124,7 @@ const AddUpdateSku = ({ skuData = null, onSuccess }) => {
     if (Object.keys(formErrors).length === 0) {
       const payload = {
         code: skuCode,
+        stock: stock,
         labour_charge: labourCharge,
         inventory_needed: inventoryFields,
       };
@@ -193,6 +201,27 @@ const AddUpdateSku = ({ skuData = null, onSuccess }) => {
               />
               {errors.skuCode && (
                 <p className="text-red-500 text-xs mt-1">{errors.skuCode}</p>
+              )}
+            </div>
+            
+            <div className="mb-4">
+              <label
+                htmlFor="stock"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Stock
+              </label>
+              <input
+                type="number"
+                id="stock"
+                name="stock"
+                value={stock}
+                onChange={(e) => setStock(e.target.value)}
+                className="h-10 mt-1 w-full rounded-md border-2 border-customRingGrey bg-customLightGrey pl-2 text-gray-500 focus:border-none focus:outline-none focus:ring-1 focus:ring-gray-400"
+                placeholder="Enter Stock"
+              />
+              {errors.stock && (
+                <p className="text-red-500 text-xs mt-1">{errors.stock}</p>
               )}
             </div>
 
