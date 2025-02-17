@@ -5,6 +5,11 @@ export const fetchSkuData = async () => {
   return data;
 };
 
+export const saleSku = async (payload) => {
+  const { data } = await API.patch("/sku/sku-sales/", payload);
+  return data;
+};
+
 export const submitSku = async (payload) => {
   const { data } = await API.post("/sku/sku-submission/", payload);
   return data;

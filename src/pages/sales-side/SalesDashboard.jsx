@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { clearStorage, getUserDataDetails } from "../../utils/localStorage";
-import { fetchSkuData, submitSku } from "../../services/skuService";
+import { fetchSkuData, saleSku } from "../../services/skuService";
 import logoutIcon from "../../assets/icons/logout.png";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router";
 
-const Dashboard = () => {
+const SalesDashboard = () => {
   const [userName, setUserName] = useState("");
   const [skuList, setSkuList] = useState([]);
   const [selectedSku, setSelectedSku] = useState("");
@@ -35,7 +35,7 @@ const Dashboard = () => {
 
     try {
       setLoading(true);
-      await submitSku({
+      await saleSku({
         sku_code: selectedSku,
         quantity: Number(quantity),
       });
@@ -44,7 +44,7 @@ const Dashboard = () => {
       setQuantity("");
       setError("");
     } catch (error) {
-      setError(error.response.data.inventory);
+      setError(error.response.data.error);
       toast.error("Try again", { duration: 10000 });
     } finally {
       setLoading(false);
@@ -79,7 +79,7 @@ const Dashboard = () => {
         </div>
 
         <div className="mx-auto w-full max-w-[24rem] rounded-md bg-white p-3 shadow-xl sm:max-w-[35rem] lg:max-w-[40rem]">
-          <h1 className="text-center text-xl font-medium">Submit SKU</h1>
+          <h1 className="text-center text-xl font-medium">Sale SKU</h1>
           <hr className="mt-2 border-t-2 border-gray-300" />
 
           <div className="mt-5 flex flex-col gap-4 px-2 md:mt-6">
@@ -126,4 +126,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default SalesDashboard;

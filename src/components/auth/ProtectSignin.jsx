@@ -13,6 +13,10 @@ const ProtectSignin = ({ children }) => {
     return <Navigate to="/labour" />;
   }
 
+  if (user?.role === "sales") {
+    return <Navigate to="/sales" />;
+  }
+
   return children;
 };
 

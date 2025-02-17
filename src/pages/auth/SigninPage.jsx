@@ -19,8 +19,10 @@ const SigninPage = () => {
       toast.success("Logged In Successfully");
       if (data.role === "admin") {
         navigate("/admin");
-      } else {
+      } else if (data.role === "labour") {
         navigate("/labour");
+      } else {
+        navigate("/sales");
       }
     } catch (error) {
       setError("Invalid username or password");

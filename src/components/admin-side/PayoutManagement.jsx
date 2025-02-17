@@ -88,16 +88,12 @@ const PayoutManagement = () => {
                         ₹{wallet.amount}
                       </td>
                       <td className="px-2 py-2 border">
-                        {wallet.amount > 0 ? (
-                          <div className="flex justify-center">
-                            <PayButton
-                              walletData={wallet}
-                              onSuccess={getWalletData}
-                            />
-                          </div>
-                        ) : (
-                          <span>&nbsp;</span>
-                        )}
+                        <div className="flex justify-center">
+                          <PayButton
+                            walletData={wallet}
+                            onSuccess={getWalletData}
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))}

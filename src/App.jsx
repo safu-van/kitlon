@@ -10,6 +10,7 @@ import ApproveSku from "./components/admin-side/ApproveSku";
 import LabourManagement from "./components/admin-side/LabourManagement";
 import InventoryManagement from "./components/admin-side/InventoryManagement";
 import PayoutManagement from "./components/admin-side/PayoutManagement";
+import SalesDashboard from "./pages/sales-side/SalesDashboard";
 
 const App = () => {
   return (
@@ -30,6 +31,15 @@ const App = () => {
           element={
             <ProtectDashboard role="labour">
               <Dashboard />
+            </ProtectDashboard>
+          }
+        />
+
+        <Route
+          path="/sales"
+          element={
+            <ProtectDashboard role="sales">
+              <SalesDashboard />
             </ProtectDashboard>
           }
         />
