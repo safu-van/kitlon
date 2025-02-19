@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 const PayButton = ({ walletData, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [payAmount, setPayAmount] = useState("");
+  const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
   const handleModalClose = () => {
@@ -21,8 +22,13 @@ const PayButton = ({ walletData, onSuccess }) => {
       return;
     }
 
+    const payload = {
+      amount: payAmount,
+      message: message,
+    };
+
     try {
-      await deductAmount(walletData.id, { amount: payAmount });
+      await deductAmount(walletData.id, payload);
       onSuccess?.();
       toast.success("Amount Paid Successfully");
     } catch (error) {
@@ -51,7 +57,7 @@ const PayButton = ({ walletData, onSuccess }) => {
             onSubmit={handleSubmit}
             className="bg-white p-6 rounded-lg shadow-lg w-full max-w-lg sm:max-w-xl"
           >
-            <div className="mb-6">
+            <div className="mb-2">
               <label
                 htmlFor="payAmount"
                 className="block text-sm font-medium text-gray-700"
@@ -68,6 +74,23 @@ const PayButton = ({ walletData, onSuccess }) => {
                 placeholder="Enter amount"
               />
               {error && <p className="text-red-500 text-xs mt-1">{error}</p>}
+            </div>
+
+            <div className="mb-6">
+              <label
+                htmlFor="message"
+                className="block text-sm font-medium text-gray-700"
+              >
+                Message
+              </label>
+              <textarea
+                id="message"
+                name="message"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                className="mt-1 w-full h-24 rounded-md border-2 border-customRingGrey bg-customLightGrey px-2 py-2 text-gray-500 focus:border-none focus:outline-none focus:ring-1 focus:ring-gray-400 resize-none custom-scrollbar"
+                placeholder="Enter message"
+              />
             </div>
 
             <div className="flex space-x-2">
