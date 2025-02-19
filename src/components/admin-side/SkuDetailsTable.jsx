@@ -1,20 +1,28 @@
 import React, { useEffect, useState } from "react";
 import AddUpdateSku from "./AddUpdateSku";
 import { fetchSkuData } from "../../services/skuService";
+import { fetchInventoryData } from "../../services/inventoryService";
 
 const SkuDetailsTable = () => {
   const [skuData, setSkuData] = useState([]);
+  const [inventoryData, setInventoryData] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const getSkuData = async () => {
-    setLoading(true)
-    const data = await fetchSkuData();
-    setSkuData(data || []);
+    setLoading(true);
+    const skuData = await fetchSkuData();
+    setSkuData(skuData || []);
     setLoading(false);
   };
 
   useEffect(() => {
+    const getIvtData = async () => {
+      const ivtData = await fetchInventoryData();
+      setInventoryData(ivtData || []);
+    };
+
     getSkuData();
+    getIvtData();
   }, []);
 
   return (
@@ -31,7 +39,7 @@ const SkuDetailsTable = () => {
         <>
           <div className="h-[15%] w-full flex items-center justify-between">
             <span className="text-lg font-medium">SKUs Details</span>
-            <AddUpdateSku onSuccess={getSkuData} />
+            <AddUpdateSku ivtData={inventoryData} onSuccess={getSkuData} />
           </div>
           <div className="h-[85%] relative">
             <div className="overflow-x-auto overflow-y-auto custom-scrollbar h-full">
@@ -62,7 +70,11 @@ const SkuDetailsTable = () => {
                       </td>
                       <td className="px-4 py-2 border">
                         <div className="flex justify-center">
-                          <AddUpdateSku skuData={sku} onSuccess={getSkuData} />
+                          <AddUpdateSku
+                            skuData={sku}
+                            ivtData={inventoryData}
+                            onSuccess={getSkuData}
+                          />
                         </div>
                       </td>
                     </tr>

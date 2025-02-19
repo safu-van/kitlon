@@ -1,35 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import removeIcon from "../../assets/icons/remove.png";
-import { fetchInventoryData } from "../../services/inventoryService";
 import { createSku, updateSku } from "../../services/skuService";
 import toast from "react-hot-toast";
 
-const AddUpdateSku = ({ skuData = null, onSuccess }) => {
+const AddUpdateSku = ({ skuData = null, ivtData, onSuccess }) => {
   const [modalOpen, setModalOpen] = useState(false);
   const [skuCode, setSkuCode] = useState(skuData?.code || "");
   const [stock, setStock] = useState(skuData?.stock || "");
   const [labourCharge, setLabourCharge] = useState(
     skuData?.labour_charge || ""
   );
-  const [errors, setErrors] = useState({});
-  const [inventoryList, setInventoryList] = useState([]);
   const [inventoryFields, setInventoryFields] = useState(
     skuData?.inventory_needed
-      ? skuData.inventory_needed.map((item, index) => ({
-          id: index + 1,
-          inventory: item.inventory,
-          quantity: item.quantity,
-        }))
-      : [{ id: 1, inventory: "", quantity: "" }]
+    ? skuData.inventory_needed.map((item, index) => ({
+      id: index + 1,
+      inventory: item.inventory,
+      quantity: item.quantity,
+    }))
+    : [{ id: 1, inventory: "", quantity: "" }]
   );
-
-  useEffect(() => {
-    const getInventoryData = async () => {
-      const data = await fetchInventoryData();
-      setInventoryList(data || []);
-    };
-    getInventoryData();
-  }, []);
+  const [errors, setErrors] = useState({});
 
   const handleModalClose = () => {
     setSkuCode(skuData?.code || "");
@@ -270,7 +260,7 @@ const AddUpdateSku = ({ skuData = null, onSuccess }) => {
                         <option value="" disabled>
                           Select Inventory
                         </option>
-                        {inventoryList.map((inv) => (
+                        {ivtData.map((inv) => (
                           <option key={inv.id} value={inv.id}>
                             {inv.name}
                           </option>
